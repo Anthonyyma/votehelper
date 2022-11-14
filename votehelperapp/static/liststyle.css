@@ -1,0 +1,17 @@
+.voter-list {
+  width: 50%;
+  position: absolute;
+}
+.voter-list a {
+  background-color: #ffffff;
+  color: black;
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  border-style: solid;
+  border-width: thin;
+  box-sizing: border-box;
+}
+.voter-list a:hover {
+  background-color: #ddd6f3;
+}

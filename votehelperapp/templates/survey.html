@@ -4,28 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Voter</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'surveystyle.css' %}">
 </head>
+<script>
+    submitForms = function() {
+        document.getElementById("optionsform").submit();
+        document.getElementById("form2").submit();
+    }
+</script>
 <body>
     <div class="voterinfo">
-        <p>Name: {{ name }}</p>
-        <p>Address: {{ address }}</p>
+        <p>Name: {{ voter.name }}</p>
+        <p>Address: {{ voter.address }}</p>
     </div>
     <div class="voteoptions">
-        <form action="/action_page.php">
-            <p>Please select an option below:</p>
-            <input type="radio" id="support" name="options" value="support">
-            <label for="support">Support</label><br>
-            <input type="radio" id="unsupport" name="options" value="unsupport">
-            <label for="unsupport">Doesn't Support</label><br>
-            <input type="radio" id="undecided" name="options" value="undecided">
-            <label for="undecided">Undecided</label><br>
-            <input type="radio" id="unavailable" name="options" value="unavailable">
-            <label for="unavailable">Unavailable</label><br>
-            <input type="submit" value="Submit">
-        </form>
+        <form method="POST" enctype="multipart/form-data">  
+            {% csrf_token %} 
+            <div class="form-group">
+                <label>Please select and option below</label>
+                {{ form.decision }}  
+            </div>
+            <div>
+                <label>Notes<br></label>
+                {{ form.notes }}
+            </div>
+        <input type="button" value="Click Me!" onclick="submitForms()" />
+    </div>
+    <div>
+
     </div>
 </body>
 </html>

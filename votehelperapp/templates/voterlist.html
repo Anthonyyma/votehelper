@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voter List</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'liststyle.css' %}">
+</head>
+<body>
+    <div class="voter-list">
+        {% for voter in object_list %}
+            <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+        {% endfor %}
+    </div>
+</body>
+</html>

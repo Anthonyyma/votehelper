@@ -2,7 +2,7 @@ from django.urls import path
 
 from . import views
 
-app_name = "votehelperapp"
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.survey, name='survey'),
+    path('list/', views.VoterList.as_view(), name='voterlist'),
 ]
