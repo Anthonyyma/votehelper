@@ -1,0 +1,25 @@
+html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+body {
+    width: fit-content;
+    display: block;
+    justify-content: center;
+}
+.voterinfo {
+    border-style: solid;
+    border-color: black;
+    width: fit-content;
+    height: fit-content;
+    padding: 20px;
+}
+.voteoptions {
+    size: 5em;
+}
+input[type='radio'] { 
+    transform: scale(2); 
+    margin: 30px;
+}
+
