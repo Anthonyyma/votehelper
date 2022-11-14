@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" href="{% static 'liststyle.css' %}">
 </head>
 <body>
+    <div style="text-align:center;">
+        <h1>Voters</h1>
+    </div>
     <div class="voter-list">
         {% for voter in object_list %}
             <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>

@@ -13,7 +13,7 @@ class VoterForm(forms.ModelForm):
 
     class Meta:
         model = Voter
-        exclude = ['id']
+        exclude = ['id', 'name', 'address']
         widgets = {
             "title": TextInput(attrs={
                 "class": "form-group form",

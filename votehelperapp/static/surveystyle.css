@@ -7,19 +7,37 @@ body {
     width: fit-content;
     display: block;
     justify-content: center;
+    font-size: 2em;
 }
 .voterinfo {
     border-style: solid;
     border-color: black;
+    border-width: thin;
     width: fit-content;
     height: fit-content;
     padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .voteoptions {
     size: 5em;
+    padding: 30px;
+
 }
 input[type='radio'] { 
     transform: scale(2); 
     margin: 30px;
+}
+#submitbutton {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1em; 
+    border-radius: 20px;
+    transform: translate(40%);
 }
 

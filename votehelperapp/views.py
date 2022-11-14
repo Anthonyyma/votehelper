@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import VoterForm
 from .models import Voter
 from django.views.generic import ListView
@@ -21,6 +21,7 @@ def survey(request):
             form = VoterForm(request.POST, request.FILES,)
         if form.is_valid():
             form.save()
+            return redirect("/list")
         else:
             print(form.errors)
 
