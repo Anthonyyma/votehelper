@@ -19,3 +19,8 @@ class VoterForm(forms.ModelForm):
                 "class": "form-group form",
             }),   
         }
+
+class CreateForm(forms.ModelForm):
+    class Meta:
+        model = Voter
+        exclude = ['id', 'decision', 'notes']

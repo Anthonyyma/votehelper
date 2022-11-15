@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import VoterForm
+from .forms import VoterForm, CreateForm
 from .models import Voter
 from django.views.generic import ListView
 
@@ -25,5 +25,28 @@ def survey(request):
         else:
             print(form.errors)
 
+    a = Voter.objects.filter(decision=1).count
+
     context = {'form': form, 'id':voterId, 'voter':voter}
     return render(request, "survey.html", context)
+
+def stats(request):
+    yes = Voter.objects.filter(decision=1).count
+    no = Voter.objects.filter(decision=2).count
+
+    context = {'yes':yes, 'no':no}
+    return render(request, "stats.html", context)
+
+def addVoter(request):
+    form = CreateForm(request.POST or None, request.FILES or None)
+
+    if request.method == "POST":
+        form = VoterForm(request.POST, request.FILES,)
+        if form.is_valid():
+            form.save()
+            return redirect("/list")
+        else:
+            print(form.errors)
+
+    context = {'form': form}
+    return render(request, "addvoter.html", context)

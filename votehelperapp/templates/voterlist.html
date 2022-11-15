@@ -14,7 +14,12 @@
     </div>
     <div class="voter-list">
         {% for voter in object_list %}
-            <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+            {% if voter.decision %}
+                <a style="background-color: grey" href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+            {% else %}
+                <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+            {% endif %}
+
         {% endfor %}
     </div>
 </body>
