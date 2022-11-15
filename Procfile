@@ -1,1 +1,1 @@
-web: gunicorn VOTEHELPER.wsgi
+web: gunicorn votehelper.wsgi
