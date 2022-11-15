@@ -9,34 +9,45 @@
     <link rel="stylesheet" type="text/css" href="{% static 'statsstyle.css' %}">
 </head>
 <body>
-
-<div id="piechart"></div>
-<div>
+  <div id="buttondiv" class='center'>
     <a href="{% url 'voterlist' %}" id="voterbutton">Voters</a>
-</div>
+  </div>
+  <div id="chart_wrap"><div id="chart"></div></div>
 
-<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<script type="text/javascript">
-// Load google charts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+  <script type="text/javascript">
+    google.load("visualization", "1", {
+        packages: ["corechart"]
+    });
+    google.setOnLoadCallback(initChart);
 
-// Draw the chart and set the chart values
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Vote', 'Count'],
-  ['Support', {{yes}}],
-  ['Do Not Support', {{no}}],
-]);
+    $(window).on("throttledresize", function (event) {
+        initChart();
+    });
 
-  // Title and width and height of the chart
-  var options = {'title':'Voter Proportions', 'width':1000, 'height':1000};
+    function initChart() {
+        var options = {
+          width: '100%',
+          height: '100%',
+          chartArea: {
+              height: "100%",
+              width: "100%"
+          }
+        };
 
-  // Display the chart inside the <div> element with id="piechart"
-  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
-  chart.draw(data, options);
-}
-</script>
+        var data = google.visualization.arrayToDataTable([
+            ['Vote', 'Overall'],
+            ['Support', {{yes}}],
+            ['Do Not Support', {{no}}]
+        ]);
+        drawChart(data, options)
+    }
+
+    function drawChart(data, options) {
+        var chart = new google.visualization.PieChart(document.getElementById('chart'));
+        chart.draw(data, options);
+    }
+  </script>
 </body>
 </html>

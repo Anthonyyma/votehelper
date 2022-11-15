@@ -1,12 +1,19 @@
 html {
     height: 100%;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
 body {
-    display: flex;
+    width: 100%;
+    display: block;
     justify-content: center;
     font-size: 2em;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 #voterbutton {
     text-decoration: none;
@@ -16,11 +23,25 @@ body {
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
+    font-size: 24px;
     margin: 4px 2px;
     cursor: pointer;
 }
+#buttondiv {
+    height:60px;
+}
 a:visited {
     color: black;
+}
+#chart_wrap {
+    /* padding-bottom: 100%; */
+    height: 50%;
+    width: 100%;
+    justify-content: center;
+    margin-top: 50px;
+}
+#chart {
+    position: relative;
+    width:100%;
+    height:100%;
 }

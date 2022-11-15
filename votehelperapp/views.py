@@ -41,7 +41,7 @@ def addVoter(request):
     form = CreateForm(request.POST or None, request.FILES or None)
 
     if request.method == "POST":
-        form = VoterForm(request.POST, request.FILES,)
+        form = CreateForm(request.POST, request.FILES,)
         if form.is_valid():
             form.save()
             return redirect("/list")
