@@ -12,6 +12,17 @@
     <div style="text-align:center;">
         <h1>Voters</h1>
     </div>
+    <!-- Import CSV Form -->
+    <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="csv_file">Select CSV file:</label>
+            <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+        </div>
+        <div>
+            <input type="submit" value="Import CSV">
+        </div>
+    </form>
     <div class='center'>
         <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
         <a href="{% url 'create' %}" id="statsbutton">Add Voter</a>
@@ -26,16 +37,5 @@
 
         {% endfor %}
     </div>
-    <!-- Import CSV Form -->
-    <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
-            <label for="csv_file">Select CSV file:</label>
-            <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
-        </div>
-        <div>
-            <input type="submit" value="Import CSV">
-        </div>
-    </form>
 </body>
 </html>

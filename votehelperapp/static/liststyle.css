@@ -44,3 +44,44 @@ body {
   margin: 4px 2px;
   cursor: pointer;
 }
+
+/*csv input*/
+
+form {
+  width: 500px;
+  margin: auto;
+  padding: 20px;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  font-family: sans-serif;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 14px;
+  color: #444;
+}
+
+input[type="submit"] {
+  background-color: #222;
+  color: #fff;
+  padding: 10px;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+}
+
