@@ -26,5 +26,16 @@
 
         {% endfor %}
     </div>
+    <!-- Import CSV Form -->
+    <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="csv_file">Select CSV file:</label>
+            <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+        </div>
+        <div>
+            <input type="submit" value="Import CSV">
+        </div>
+    </form>
 </body>
 </html>

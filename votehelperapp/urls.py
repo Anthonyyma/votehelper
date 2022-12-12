@@ -7,4 +7,5 @@ urlpatterns = [
     path('create/', views.addVoter, name='create'),
     path('survey/', views.survey, name='survey'),
     path('list/', views.VoterList.as_view(), name='voterlist'),
+    path('add/', views.import_csv, name='import_csv'),
 ]
