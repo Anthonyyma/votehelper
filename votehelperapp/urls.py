@@ -4,7 +4,9 @@ from . import views
 
 urlpatterns = [
     path('', views.stats, name='stats'),
-    path('create/', views.addVoter, name='create'),
+    # path('create/', views.addVoter, name='create'),
+    path('login/', views.loginUser, name='login'),
+    path('register/', views.register, name='register'),
     path('survey/', views.survey, name='survey'),
     path('list/', views.VoterList.as_view(), name='voterlist'),
     path('add/', views.import_csv, name='import_csv'),

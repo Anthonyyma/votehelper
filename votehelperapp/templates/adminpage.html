@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'adminstyle.css' %}">
+    </head>
+
+    <body>
+        <h1>Users</h1>
+        <form>
+            <label for="user-search">Search:</label>
+            <input type="text" id="user-search" name="user-search">
+        </form>
+        <ul id="users">
+            {% for user in users %}
+            <li>Name: {{ user.username }}</li>
+            {% endfor %}
+        </ul>
+
+        <h1>Voters</h1>
+        <form>
+            <label for="voter-search">Search:</label>
+            <input type="text" id="voter-search" name="voter-search">
+        </form>
+        <ul id="voters">
+            {% for voter in voters %}
+            <li>
+                <div style="flex: 1">Name: {{voter.name}}</div>
+                <div style="flex: 1">Address: {{voter.address}}</div>
+            </li>
+            {% endfor %}
+        </ul>
+        <script>
+            // Get the search input and list elements
+            var userSearchInput = document.getElementById('user-search');
+            var userList = document.querySelector('#users');
+            if (userSearchInput) {
+                // Listen for changes to the search input
+                userSearchInput.addEventListener('input', function () {
+                    console.log("test")
+                    // Get the search term
+                    var searchTerm = this.value.toLowerCase();
+
+                    // Get all the list items
+                    var userListItems = userList.querySelectorAll('li');
+
+                    // Loop through the list items
+                    for (var i = 0; i < userListItems.length; i++) {
+                        var user = userListItems[i];
+
+                        // Check if the user's name contains the search term
+                        if (user.innerText.toLowerCase().includes(searchTerm)) {
+                            // If it does, show the user
+                            user.style.display = 'block';
+                        } else {
+                            // If it doesn't, hide the user
+                            user.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            // Get the search input and list elements
+            var voterSearchInput = document.getElementById('voter-search');
+            var voterList = document.querySelector('#voters');
+            console.log(voterList)
+            if (voterSearchInput) {
+                // Listen for changes to the search input
+                voterSearchInput.addEventListener('input', function () {
+                    // Get the search term
+                    var searchTerm = this.value.toLowerCase();
+
+                    // Get all the list items
+                    var voterListItems = voterList.querySelectorAll('li');
+
+                    // Loop through the list items
+                    for (var i = 0; i < voterListItems.length; i++) {
+                        var voter = voterListItems[i];
+
+                        // Check if the voter's name contains the search term
+                        if (voter.innerText.toLowerCase().includes(searchTerm)) {
+                            // If it does, show the voter
+                            voter.style.display = 'block';
+                        } else {
+                            // If it doesn't, hide the voter
+                            voter.style.display = 'none';
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+
+</html>
