@@ -11,3 +11,6 @@ class Voter(models.Model):
     address = models.TextField()
     decision = models.CharField(max_length=20, blank=True)
     notes = models.TextField(blank=True)
+
+# class AddressGroups(models.Model):
+    

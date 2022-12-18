@@ -18,7 +18,7 @@
         </form>
         <ul id="users">
             {% for user in users %}
-            <li>Name: {{ user.username }}</li>
+            <li><a style="text-decoration: none; color: black" href="{% url 'assign' %}?user={{user.id}}">Name: {{ user.username }}</a></li>
             {% endfor %}
         </ul>
 

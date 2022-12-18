@@ -84,6 +84,9 @@ def adminPage(request):
     context = {users:users, voters:voters}
     return render(request, "adminpage.html", context)
 
+def assign(request):
+    pass
+
 # def addVoter(request):
 #     form = CreateForm(request.POST or None, request.FILES or None)
 
