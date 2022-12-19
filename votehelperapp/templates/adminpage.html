@@ -31,7 +31,6 @@
             {% for voter in voters %}
             <li>
                 <div style="flex: 1">Name: {{voter.name}}</div>
-                <div style="flex: 1">Address: {{voter.address}}</div>
             </li>
             {% endfor %}
         </ul>
@@ -42,7 +41,6 @@
             if (userSearchInput) {
                 // Listen for changes to the search input
                 userSearchInput.addEventListener('input', function () {
-                    console.log("test")
                     // Get the search term
                     var searchTerm = this.value.toLowerCase();
 
@@ -67,7 +65,6 @@
             // Get the search input and list elements
             var voterSearchInput = document.getElementById('voter-search');
             var voterList = document.querySelector('#voters');
-            console.log(voterList)
             if (voterSearchInput) {
                 // Listen for changes to the search input
                 voterSearchInput.addEventListener('input', function () {

@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import TextInput, Textarea
 from .models import Voter
-from django.contrib.auth.forms import UserCreationForm
 
 CHOICES=[('1','Support'),
          ('2',"Do Not Support"),

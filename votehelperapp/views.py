@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from .forms import VoterForm
-from .models import Voter
+from .models import Voter, Neighbourhood
 from django.views.generic import ListView
 import csv
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+
 
 class VoterList(ListView):
     template_name = "voterlist.html"
@@ -63,12 +65,7 @@ def survey(request):
 
 def stats(request):
     if request.user.is_superuser:
-        User = get_user_model()
-        users = User.objects.all()
-        voters = Voter.objects.all()
-
-        context = {'users':users, 'voters':voters}
-        return render(request, "adminpage.html", context)
+        return redirect('add_user_to_group')
 
     yes = Voter.objects.filter(decision=1).count
     no = Voter.objects.filter(decision=2).count
@@ -76,30 +73,42 @@ def stats(request):
     context = {'yes':yes, 'no':no}
     return render(request, "stats.html", context)
 
-def adminPage(request):
+def assign(request):
     User = get_user_model()
     users = User.objects.all()
-    voters = Voter.objects.all()
+    nei = Neighbourhood.objects.all()
+    groups = Group.objects.all()
 
-    context = {users:users, voters:voters}
-    return render(request, "adminpage.html", context)
+    context = {'users':users, 'nei':nei, 'groups':groups}
+    return render(request, "assign.html", context)
 
-def assign(request):
-    pass
+from django.shortcuts import redirect
+from django.contrib.auth.models import User, Group
 
-# def addVoter(request):
-#     form = CreateForm(request.POST or None, request.FILES or None)
+def add_user_to_group(request):
+    user_pk = request.POST.get('user')
+    group_name = request.POST.get('group')
+    groups = Group.objects.all()
+    User = get_user_model()
+    users = User.objects.all()
+    if request.method == 'POST':
+        print("t")
+        # Get the user and group objects
+        user = User.objects.get(pk=user_pk)
+        group = Group.objects.get(name=group_name)
+        print(group)
 
-#     if request.method == "POST":
-#         form = CreateForm(request.POST, request.FILES,)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("/list")
-#         else:
-#             print(form.errors)
+        # Remove the user from their current group (if they are in one)
+        if user.groups:
+            user.groups.clear()
 
-#     context = {'form': form}
-#     return render(request, "addvoter.html", context)
+        # Add the user to the group
+        group.user_set.add(user)
+
+        # Redirect to a success page
+        return redirect('stats')
+    context = {'users':users, 'groups':groups}
+    return render(request, "assign.html", context)
 
 # @login_required
 # @require_POST
@@ -109,12 +118,19 @@ def import_csv(request):
             csv_file = request.FILES['csv_file']
             data = csv_file.read().decode("utf-8")
             if not csv_file.name.endswith(".csv"):
+                print('h')
                 return redirect("/list")
             
             lines = data.split("\n")
             for line in lines:
                 fields = line.split(",")
-                voter = Voter(name=fields[0], address=fields[1])
+                if Neighbourhood.objects.filter(name=fields[2]).count() <= 0:
+                    nei = Neighbourhood(name=fields[2])
+                    nei.save()
+                else:
+                    nei = Neighbourhood.objects.filter(name=fields[2])[0]
+                    print(nei)
+                voter = Voter(name=fields[0], address=fields[1], neighbourhood=nei)
                 voter.save()
 
         except Exception as e:

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'adminstyle.css' %}">
+    </head>
+
+    <body>
+        <h1>Neighbourhoods</h1>
+
+        <form id='form1' action="{% url 'add_user_to_group' %}" method="post">
+            {% csrf_token %}
+            <form>
+                <label for="user-search">Search User:</label>
+                <input type="text" id="user-search" name="user-search">
+            </form>
+            <ul id="users">
+                {% for user in users %}
+                <li id="user-{{ user.pk }}" onclick="selectUser(this)">{{ user.username }}</li>
+                {% endfor %}
+            </ul>
+            <form>
+                <label for="group-search">Search Neighbourhood:</label>
+                <input type="text" id="group-search" name="group-search">
+            </form>
+            <ul id="groups">
+                {% for group in groups %}
+                <li id="group-{{ group.name }}" onclick="selectGroup(this)">{{ group.name }}</li>
+                {% endfor %}
+            </ul>
+
+            <input type="hidden" form="form1" name="user" id="selected-user" value="">
+            <input type="hidden" form="form1" name="group" id="selected-group" value="">
+
+            <input type="submit" form="form1" value="Add user to group">
+        </form>
+
+
+        <script>
+            function selectUser(element) {
+                // Remove the 'selected' class from any previously selected elements
+                const selected = document.querySelector('#users .selected');
+                if (selected) {
+                    selected.classList.remove('selected');
+                }
+
+                // Add the 'selected' class to the selected element
+                element.classList.add('selected');
+
+                // Set the value of the 'selected-user' field to the ID of the selected user
+                document.getElementById('selected-user').value = element.id.split('-')[1];
+            }
+            function selectGroup(element) {
+                // Remove the 'selected' class from any previously selected elements
+                const selected = document.querySelector('#groups .selected');
+                if (selected) {
+                    selected.classList.remove('selected');
+                }
+
+                // Add the 'selected' class to the selected element
+                element.classList.add('selected');
+
+                // Set the value of the 'selected-group' field to the name of the selected group
+                document.getElementById('selected-group').value = element.id.split('-')[1];
+            }
+            // Get the search input and list elements
+            var voterSearchInput = document.getElementById('user-search');
+            var voterList = document.querySelector('#users');
+            if (voterSearchInput) {
+                // Listen for changes to the search input
+                voterSearchInput.addEventListener('input', function () {
+                    // Get the search term
+                    var searchTerm = this.value.toLowerCase();
+
+                    // Get all the list items
+                    var voterListItems = voterList.querySelectorAll('li');
+
+                    // Loop through the list items
+                    for (var i = 0; i < voterListItems.length; i++) {
+                        var voter = voterListItems[i];
+
+                        // Check if the voter's name contains the search term
+                        if (voter.innerText.toLowerCase().includes(searchTerm)) {
+                            // If it does, show the voter
+                            voter.style.display = 'block';
+                        } else {
+                            // If it doesn't, hide the voter
+                            voter.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            // Get the search input and list elements
+            var groupSearchInput = document.getElementById('group-search');
+            var groupList = document.querySelector('#groups');
+            if (groupSearchInput) {
+                // Listen for changes to the search input
+                groupSearchInput.addEventListener('input', function () {
+                    // Get the search term
+                    var searchTerm = this.value.toLowerCase();
+
+                    // Get all the list items
+                    var groupListItems = groupList.querySelectorAll('li');
+
+                    // Loop through the list items
+                    for (var i = 0; i < groupListItems.length; i++) {
+                        var group = groupListItems[i];
+
+                        // Check if the voter's name contains the search term
+                        if (group.innerText.toLowerCase().includes(searchTerm)) {
+                            // If it does, show the voter
+                            group.style.display = 'block';
+                        } else {
+                            // If it doesn't, hide the voter
+                            group.style.display = 'none';
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+
+</html>
