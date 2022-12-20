@@ -5,48 +5,55 @@ html {
 body {
     width: 50%;
     margin:0 auto;
+    font-size: 1.5em;
 }
-ul {
-    border: 1px solid #333;
-    overflow-y: scroll;
-    list-style-type: none;
-    max-width: 35em;
-}
-li {
-    padding: 5px;
-    display: flex;
-    flex-direction: column;
-    transition: background-color 0.2s, color 0.2s;
-}
-li:hover {
-    background-color: #eee;
-}
+
+
+/* Style the form elements */
 form {
     display: flex;
-    align-items: center;
-}
-label {
-    margin-right: 10px;
+    flex-direction: column;
 }
 
+/* Style the search input fields */
 input[type="text"] {
-    padding: 5px;
-    border: 1px solid #333;
+    margin: 10px 0;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
+/* Style the submit button */
 input[type="submit"] {
-    padding: 5px 10px;
-    background-color: #333;
-    color: #fff;
+    margin: 20px 0;
+    padding: 8px 16px;
     border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
     cursor: pointer;
 }
-.selected {
-  background-color: rgb(179, 179, 179);
-  color: #333;
-  font-weight: bold;
-  border: 2px solid #333;
+
+/* Style the lists */
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
+
+/* Style the list items */
+li {
+    /* font-size: 2em; */
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Style the selected list item */
+li.selected {
+    background-color: #f2f2f2;
+}
+
 
 
 
