@@ -7,13 +7,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'adminstyle.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'assignstyle.css' %}">
     </head>
 
     <body>
-        <h1>Neighbourhoods</h1>
+        <h1>Assign Users To A Neighbourhood</h1>
 
-        <form id='form1' action="{% url 'add_user_to_group' %}" method="post">
+        <form id='form1' action="{% url 'assign' %}" method="post">
             {% csrf_token %}
             <form>
                 <label for="user-search">Search User:</label>
@@ -37,7 +37,7 @@
             <input type="hidden" form="form1" name="user" id="selected-user" value="">
             <input type="hidden" form="form1" name="group" id="selected-group" value="">
 
-            <input type="submit" form="form1" value="Add user to group">
+            <input type="submit" form="form1" value="Assign User To Neighbourhood">
         </form>
 
 

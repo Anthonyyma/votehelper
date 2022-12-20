@@ -13,6 +13,7 @@
         <h1>Voters</h1>
     </div>
     <!-- Import CSV Form -->
+    {% if request.user.is_superuser %}
     <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div>
@@ -23,18 +24,23 @@
             <input type="submit" value="Import CSV">
         </div>
     </form>
+    {% endif %}
     <div class='center'>
         <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
+        {% if request.user.is_superuser %}
+        <a href="{% url 'assign' %}" id="statsbutton">Assign</a>
+        {% endif %}
         {% comment %} <a href="{% url 'create' %}" id="statsbutton">Add Voter</a> {% endcomment %}
     </div>
     <div class="voter-list">
         {% for voter in object_list %}
-            {% if voter.decision %}
-                <a style="background-color: #ffd2d2" href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
-            {% else %}
-                <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+            {% if voter.neighbourhood == request.user.groups.all.first.name %}
+                {% if voter.decision %}
+                    <a style="background-color: #ffd2d2" href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+                {% else %}
+                    <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+                {% endif %}
             {% endif %}
-
         {% endfor %}
     </div>
 </body>

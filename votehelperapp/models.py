@@ -4,14 +4,15 @@ from django.contrib.auth.models import AbstractUser
 
 # class User(AbstractUser):
 #     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-class Neighbourhood(models.Model):
-    name = models.TextField() 
+# class Neighbourhood(models.Model):
+#     name = models.TextField() 
 
 class Voter(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
+    # neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     name = models.TextField()
     address = models.TextField()
+    neighbourhood = models.TextField(default="t", blank=True)
     decision = models.CharField(max_length=20, blank=True)
     notes = models.TextField(blank=True)
 

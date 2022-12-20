@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 from .forms import VoterForm
-from .models import Voter, Neighbourhood
+from .models import Voter
 from django.views.generic import ListView
 import csv
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 
 
 class VoterList(ListView):
@@ -46,7 +46,6 @@ def survey(request):
     if voterId != None:
         voter = Voter.objects.get(id=voterId)
         form = VoterForm(instance=voter)
-
     if request.method == "POST":
         if voterId != None:
             form = VoterForm(request.POST, instance=voter)
@@ -64,8 +63,8 @@ def survey(request):
     return render(request, "survey.html", context)
 
 def stats(request):
-    if request.user.is_superuser:
-        return redirect('add_user_to_group')
+    # if request.user.is_superuser:
+    #     return redirect('assign')
 
     yes = Voter.objects.filter(decision=1).count
     no = Voter.objects.filter(decision=2).count
@@ -73,30 +72,26 @@ def stats(request):
     context = {'yes':yes, 'no':no}
     return render(request, "stats.html", context)
 
+# def assign(request):
+#     User = get_user_model()
+#     users = User.objects.all()
+#     nei = Neighbourhood.objects.all()
+#     groups = Group.objects.all()
+
+#     context = {'users':users, 'nei':nei, 'groups':groups}
+#     return render(request, "assign.html", context)
+
 def assign(request):
-    User = get_user_model()
-    users = User.objects.all()
-    nei = Neighbourhood.objects.all()
-    groups = Group.objects.all()
-
-    context = {'users':users, 'nei':nei, 'groups':groups}
-    return render(request, "assign.html", context)
-
-from django.shortcuts import redirect
-from django.contrib.auth.models import User, Group
-
-def add_user_to_group(request):
     user_pk = request.POST.get('user')
     group_name = request.POST.get('group')
     groups = Group.objects.all()
     User = get_user_model()
     users = User.objects.all()
+
     if request.method == 'POST':
-        print("t")
         # Get the user and group objects
         user = User.objects.get(pk=user_pk)
         group = Group.objects.get(name=group_name)
-        print(group)
 
         # Remove the user from their current group (if they are in one)
         if user.groups:
@@ -105,8 +100,6 @@ def add_user_to_group(request):
         # Add the user to the group
         group.user_set.add(user)
 
-        # Redirect to a success page
-        return redirect('stats')
     context = {'users':users, 'groups':groups}
     return render(request, "assign.html", context)
 
@@ -118,18 +111,23 @@ def import_csv(request):
             csv_file = request.FILES['csv_file']
             data = csv_file.read().decode("utf-8")
             if not csv_file.name.endswith(".csv"):
-                print('h')
                 return redirect("/list")
             
             lines = data.split("\n")
+            lines.pop(0)
             for line in lines:
-                fields = line.split(",")
-                if Neighbourhood.objects.filter(name=fields[2]).count() <= 0:
-                    nei = Neighbourhood(name=fields[2])
-                    nei.save()
-                else:
-                    nei = Neighbourhood.objects.filter(name=fields[2])[0]
-                    print(nei)
+                if not line:
+                    continue
+
+                reader = csv.reader([line])
+                fields = next(reader)
+                nei = fields[2].strip()
+
+                # create the group
+                group = Group.objects.filter(name=nei)
+
+                if not group:
+                    group = Group.objects.create(name=nei)
                 voter = Voter(name=fields[0], address=fields[1], neighbourhood=nei)
                 voter.save()
 
