@@ -29,6 +29,7 @@
         <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
         {% if request.user.is_superuser %}
         <a href="{% url 'assign' %}" id="statsbutton">Assign</a>
+        <a href="{% url 'assignindividual' %}" id="statsbutton">Assign Individual</a>
         {% endif %}
         {% comment %} <a href="{% url 'create' %}" id="statsbutton">Add Voter</a> {% endcomment %}
     </div>
