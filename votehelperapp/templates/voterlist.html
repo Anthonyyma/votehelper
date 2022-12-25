@@ -34,7 +34,7 @@
     </div>
     <div class="voter-list">
         {% for voter in object_list %}
-            {% if voter.neighbourhood == request.user.groups.all.first.name %}
+            {% if voter.neighbourhood == request.user.groups.all.first.name or voter.assignedEmp == request.user.username %}
                 {% if voter.decision %}
                     <a style="background-color: #ffd2d2" href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
                 {% else %}

@@ -11,4 +11,5 @@ urlpatterns = [
     path('list/', views.VoterList.as_view(), name='voterlist'),
     path('add/', views.import_csv, name='import_csv'),
     path('assign/', views.assign, name='assign'),
+    path('assignindividual/', views.assignIndividual, name='assignindividual'),
 ]

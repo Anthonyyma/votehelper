@@ -68,6 +68,31 @@ li.selected {
     background-color: #f2f2f2;
 }
 
+/* Style the select element */
+select {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    border: none;
+    width: 100%;
+    font-size: 1em;
+}
+
+/* Style the options */
+option {
+    /* font-size: 2em; */
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Style the selected option */
+option:checked {
+    background-color: #f2f2f2;
+}
+
+
 
 
 

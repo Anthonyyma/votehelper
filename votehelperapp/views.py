@@ -103,6 +103,25 @@ def assign(request):
     context = {'users':users, 'groups':groups}
     return render(request, "assign.html", context)
 
+def assignIndividual(request):
+    user_pk = request.POST.get('user')
+    voter_names = request.POST.getlist('options')
+    voters = Voter.objects.all()
+    User = get_user_model()
+    users = User.objects.all()
+
+    if request.method == 'POST':
+        # Get the user and group objects
+        if user_pk.isdigit():
+            user = User.objects.get(pk=user_pk)
+            for voter_name in voter_names:
+                voter = Voter.objects.get(name=voter_name)
+                voter.assignedEmp = user.username
+                voter.save()
+
+    context = {'users':users, 'voters':voters}
+    return render(request, "assignIndividual.html", context)
+
 # @login_required
 # @require_POST
 def import_csv(request):
