@@ -36,3 +36,16 @@ button {
     color: red;
     text-align: center;
 }
+.submit-button {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  content: '\f00c'; /* This is the Font Awesome icon for a checkmark */
+  background-color: #4caf50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
