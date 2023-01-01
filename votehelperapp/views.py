@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
-
+from django.contrib.auth.decorators import login_required
 
 class VoterList(ListView):
     template_name = "voterlist.html"
@@ -40,6 +40,7 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
 
+@login_required(login_url='/login')
 def survey(request):
     form = VoterForm(request.POST or None, request.FILES or None)
     voterId = request.GET.get('id')  
@@ -62,6 +63,7 @@ def survey(request):
     context = {'form': form, 'id':voterId, 'voter':voter}
     return render(request, "survey.html", context)
 
+@login_required(login_url='/login')
 def stats(request):
     # if request.user.is_superuser:
     #     return redirect('assign')
@@ -72,15 +74,7 @@ def stats(request):
     context = {'yes':yes, 'no':no}
     return render(request, "stats.html", context)
 
-# def assign(request):
-#     User = get_user_model()
-#     users = User.objects.all()
-#     nei = Neighbourhood.objects.all()
-#     groups = Group.objects.all()
-
-#     context = {'users':users, 'nei':nei, 'groups':groups}
-#     return render(request, "assign.html", context)
-
+@login_required(login_url='/login')
 def assign(request):
     user_pk = request.POST.get('user')
     group_name = request.POST.get('group')
@@ -103,6 +97,7 @@ def assign(request):
     context = {'users':users, 'groups':groups}
     return render(request, "assign.html", context)
 
+@login_required(login_url='/login')
 def assignIndividual(request):
     user_pk = request.POST.get('user')
     voter_names = request.POST.getlist('options')
@@ -124,6 +119,7 @@ def assignIndividual(request):
 
 # @login_required
 # @require_POST
+@login_required(login_url='/login')
 def import_csv(request):
     if request.method == 'POST':
         try:
