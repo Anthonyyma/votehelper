@@ -85,3 +85,14 @@ input[type="submit"] {
   cursor: pointer;
 }
 
+input[type="text"] {
+  /* Remove the default styling */
+  border: none;
+  background-color: transparent;
+  /* Add some padding and a font size */
+  padding: 15px;
+  font-size: 1em;
+  width: 100%;
+}
+
+

@@ -12,6 +12,8 @@ class Voter(models.Model):
     # neighbourhood = models.ForeignKey(Neighbourhood, on_delete=models.CASCADE)
     name = models.TextField()
     address = models.TextField()
+    email = models.TextField(default="", blank=True)
+    phone = models.TextField(default="", blank=True)
     neighbourhood = models.TextField(default="", blank=True)
     assignedEmp = models.TextField(default="", blank=True)
     decision = models.CharField(max_length=20, blank=True)

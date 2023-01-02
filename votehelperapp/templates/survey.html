@@ -12,11 +12,12 @@
     <div class="voterinfo">
         <p>Name: {{ voter.name }}</p>
         <p>Address: {{ voter.address }}</p>
+        <p>Phone: {{ voter.phone }}</p>
+        <p>Email: {{ voter.email }}</p>
     </div>
     <div class="voteoptions">
         <form method="POST" enctype="multipart/form-data">  
             {% csrf_token %} 
-            {{a}}
             <div>
                 <label>Please select and option below</label>
                 {{ form.decision }}  

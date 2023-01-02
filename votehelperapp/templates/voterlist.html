@@ -1,48 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voter List</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'liststyle.css' %}">
-</head>
-<body>
-    <div style="text-align:center;">
-        <h1>Voters</h1>
-    </div>
-    <!-- Import CSV Form -->
-    {% if request.user.is_superuser %}
-    <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div>
-            <label for="csv_file">Select CSV file:</label>
-            <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Voter List</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'liststyle.css' %}">
+    </head>
+
+    <body>
+        <div style="text-align:center;">
+            <h1>Voters</h1>
         </div>
-        <div>
-            <input type="submit" value="Import CSV">
-        </div>
-    </form>
-    {% endif %}
-    <div class='center'>
-        <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
+        <!-- Import CSV Form -->
         {% if request.user.is_superuser %}
-        <a href="{% url 'assign' %}" id="statsbutton">Assign</a>
-        <a href="{% url 'assignindividual' %}" id="statsbutton">Assign Individual</a>
+        <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <label for="csv_file">Select CSV file:</label>
+                <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+            </div>
+            <div>
+                <input type="submit" value="Import CSV">
+            </div>
+        </form>
         {% endif %}
-        {% comment %} <a href="{% url 'create' %}" id="statsbutton">Add Voter</a> {% endcomment %}
-    </div>
-    <div class="voter-list">
-        {% for voter in object_list %}
-            {% if voter.neighbourhood == request.user.groups.all.first.name or voter.assignedEmp == request.user.username %}
-                {% if voter.decision %}
-                    <a style="background-color: #ffd2d2" href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
-                {% else %}
-                    <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
-                {% endif %}
+        <div class='center'>
+            <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
+            {% comment %} {% if request.user.is_superuser %}
+            <a href="{% url 'assign' %}" id="statsbutton">Assign</a>
+            <a href="{% url 'assignindividual' %}" id="statsbutton">Assign Individual</a>
+            {% endif %} {% endcomment %}
+            <a href="{% url 'addvoter' %}" id="statsbutton">Add Voter</a>
+            <a href="{% url 'export' %}" id="statsbutton">Export</a>
+        </div>
+
+        <br>
+        <form>
+            <h3>Search by name and address</h3>
+            <input type="text" id="nameInput" onkeyup="filterVoters()" placeholder="Search by name..">
+            <input type="text" id="addressInput" onkeyup="filterVoters()" placeholder="Search by address..">
+        </form>
+        <br>
+
+        <div class="voter-list">
+            {% for voter in object_list %}
+            {% if request.user.is_superuser or voter.neighbourhood == request.user.groups.all.first.name or voter.assignedEmp == request.user.username %}
+            {% if voter.decision %}
+            <a style="background-color: #ffd2d2"
+                href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
+            {% else %}
+            <a href="{% url 'survey' %}?id={{ voter.id }}"><b>{{ voter.name }}</b><br>{{ voter.address }}</a>
             {% endif %}
-        {% endfor %}
-    </div>
-</body>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <script>
+            function filterVoters() {
+                // Get the search inputs
+                var nameInput = document.getElementById("nameInput");
+                var addressInput = document.getElementById("addressInput");
+                // Get the voter list
+                var voterList = document.getElementsByClassName("voter-list")[0];
+                // Get the voter elements
+                var voterElements = voterList.getElementsByTagName("a");
+
+                // Loop through the voter elements and hide those that don't match the search inputs
+                for (var i = 0; i < voterElements.length; i++) {
+                    var voter = voterElements[i];
+                    var voterName = voter.getElementsByTagName("b")[0].textContent;
+                    var voterAddress = voter.textContent.replace(voterName, '').trim(); // Get the voter address by removing the voter name from the text content
+                    if (voterName.toLowerCase().indexOf(nameInput.value.toLowerCase()) > -1 && voterAddress.toLowerCase().indexOf(addressInput.value.toLowerCase()) > -1) {
+                        voter.style.display = "";
+                    } else {
+                        voter.style.display = "none";
+                    }
+                }
+            }
+        </script>
+    </body>
+
 </html>

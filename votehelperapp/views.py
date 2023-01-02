@@ -1,5 +1,6 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .forms import VoterForm
+from .forms import VoterForm, CreateForm
 from .models import Voter
 from django.views.generic import ListView
 import csv
@@ -8,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
+import openpyxl, io
 
 class VoterList(ListView):
     template_name = "voterlist.html"
@@ -54,7 +56,7 @@ def survey(request):
             form = VoterForm(request.POST, request.FILES,)
         if form.is_valid():
             form.save()
-            return redirect("/list")
+            return redirect("/")
         else:
             print(form.errors)
 
@@ -85,6 +87,7 @@ def assign(request):
     if request.method == 'POST':
         # Get the user and group objects
         user = User.objects.get(pk=user_pk)
+        group = Group.objects.get(name=group_name)
         group = Group.objects.get(name=group_name)
 
         # Remove the user from their current group (if they are in one)
@@ -126,7 +129,7 @@ def import_csv(request):
             csv_file = request.FILES['csv_file']
             data = csv_file.read().decode("utf-8")
             if not csv_file.name.endswith(".csv"):
-                return redirect("/list")
+                return redirect("/")
             
             lines = data.split("\n")
             lines.pop(0)
@@ -136,16 +139,89 @@ def import_csv(request):
 
                 reader = csv.reader([line])
                 fields = next(reader)
-                nei = fields[2].strip()
+                # nei = fields[2].strip()
 
-                # create the group
-                group = Group.objects.filter(name=nei)
+                # # create the group
+                # group = Group.objects.filter(name=nei)
 
-                if not group:
-                    group = Group.objects.create(name=nei)
-                voter = Voter(name=fields[0], address=fields[1], neighbourhood=nei)
+                # if not group:
+                #     group = Group.objects.create(name=nei)
+                # voter = Voter(name=fields[0], address=fields[1], neighbourhood=nei)
+                voter = Voter(name=fields[0], address=fields[1], phone=fields[2], email=fields[3].strip())
                 voter.save()
 
         except Exception as e:
             print(e)
-    return redirect("/list")
+    return redirect("/")
+
+@login_required(login_url='/login')
+def addVoter(request):
+    form = CreateForm(request.POST or None)
+    if request.method == "POST":
+        form = CreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/list")
+        else:
+            print(form.errors)
+
+    context = {'form': form}
+    return render(request, "addvoter.html", context)
+
+@login_required(login_url='/login')
+def export(request):
+
+    # Open a new Excel workbook
+    workbook = openpyxl.Workbook()
+
+    # Get the active worksheet
+    worksheet = workbook.active
+
+    # Set the worksheet title
+    worksheet.title = "Voters"
+
+    # Set the column headers
+    worksheet.cell(row=1, column=1).value = "Name"
+    worksheet.cell(row=1, column=2).value = "Address"
+    worksheet.cell(row=1, column=3).value = "Phone"
+    worksheet.cell(row=1, column=4).value = "Email"
+    worksheet.cell(row=1, column=5).value = "Decision"
+    worksheet.cell(row=1, column=6).value = "Notes"
+
+    # Get the voters from the database
+    voters = Voter.objects.all()
+
+    # Loop through the voters and add them to the worksheet
+    for i, voter in enumerate(voters):
+        worksheet.cell(row=i+2, column=1).value = voter.name
+        worksheet.cell(row=i+2, column=2).value = voter.address
+        worksheet.cell(row=i+2, column=3).value = voter.phone
+        worksheet.cell(row=i+2, column=4).value = voter.email
+        if voter.decision == "1":
+            worksheet.cell(row=i+2, column=5).value = "Support"
+        elif voter.decision == "2":
+            worksheet.cell(row=i+2, column=5).value = "Not Supporting"
+        elif voter.decision == "3":
+            worksheet.cell(row=i+2, column=5).value = "Undecided"
+        elif voter.decision == "4":
+            worksheet.cell(row=i+2, column=5).value = "Not Available"
+        worksheet.cell(row=i+2, column=6).value = voter.notes
+
+    # Set the column widths to fit the cell contents
+    worksheet.column_dimensions['A'].width = 20
+    worksheet.column_dimensions['B'].width = 50
+    worksheet.column_dimensions['C'].width = 20
+    worksheet.column_dimensions['D'].width = 30
+    worksheet.column_dimensions['E'].width = 20
+    worksheet.column_dimensions['F'].width = 50
+
+    # Save the workbook to a memory buffer
+    buffer = io.BytesIO()
+    workbook.save(buffer)
+
+    response = HttpResponse(buffer.getvalue())
+    response['Content-Disposition'] = 'attachment; filename=voters.xlsx'
+    response['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+    return response
+
