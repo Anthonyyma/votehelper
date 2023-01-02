@@ -10,8 +10,9 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 import openpyxl, io
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class VoterList(ListView):
+class VoterList(LoginRequiredMixin, ListView):
     template_name = "voterlist.html"
     model = Voter
 
