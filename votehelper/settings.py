@@ -84,9 +84,13 @@ WSGI_APPLICATION = 'votehelper.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'railway',
+       'USER': 'postgres',
+       'PASSWORD': 'f17YBEkM3FgqDccXwPMh',
+       'HOST': 'containers-us-west-36.railway.app',
+       'PORT': '7444',
+   }
 }
 
 import dj_database_url
