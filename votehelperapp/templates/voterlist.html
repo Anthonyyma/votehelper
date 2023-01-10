@@ -17,6 +17,15 @@
         <div style="text-align:center;">
             <h1>Voters</h1>
         </div>
+        <div class='center'>
+            <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
+            {% if request.user.is_superuser %}
+            <a href="{% url 'assign' %}" id="statsbutton">Assign</a>
+            <a href="{% url 'assignindividual' %}" id="statsbutton">Assign Individual</a>
+            {% endif %}
+            <a href="{% url 'addvoter' %}" id="statsbutton">Add Voter</a>
+            <a href="{% url 'export' %}" id="statsbutton">Export</a>
+        </div>
         <!-- Import CSV Form -->
         <div class="center">
             {% if request.user.is_superuser %}
@@ -31,15 +40,6 @@
                 </div>
             </form>
             {% endif %}
-        </div>
-        <div class='center'>
-            <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
-            {% if request.user.is_superuser %}
-            <a href="{% url 'assign' %}" id="statsbutton">Assign</a>
-            <a href="{% url 'assignindividual' %}" id="statsbutton">Assign Individual</a>
-            {% endif %}
-            <a href="{% url 'addvoter' %}" id="statsbutton">Add Voter</a>
-            <a href="{% url 'export' %}" id="statsbutton">Export</a>
         </div>
 
         <div class='center'>
