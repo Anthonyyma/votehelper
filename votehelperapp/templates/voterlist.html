@@ -4,7 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% comment %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> {% endcomment %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
         <title>Voter List</title>
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'liststyle.css' %}">
@@ -15,35 +18,40 @@
             <h1>Voters</h1>
         </div>
         <!-- Import CSV Form -->
-        {% if request.user.is_superuser %}
-        <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div>
-                <label for="csv_file">Select CSV file:</label>
-                <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
-            </div>
-            <div>
-                <input type="submit" value="Import CSV">
-            </div>
-        </form>
-        {% endif %}
+        <div class="center">
+            {% if request.user.is_superuser %}
+            <form action="{% url 'import_csv' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <label for="csv_file">Select CSV file:</label>
+                    <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+                </div>
+                <div>
+                    <input type="submit" value="Import CSV">
+                </div>
+            </form>
+            {% endif %}
+        </div>
         <div class='center'>
             <a href="{% url 'stats' %}" id="statsbutton">Statistics</a>
-            {% comment %} {% if request.user.is_superuser %}
+            {% if request.user.is_superuser %}
             <a href="{% url 'assign' %}" id="statsbutton">Assign</a>
             <a href="{% url 'assignindividual' %}" id="statsbutton">Assign Individual</a>
-            {% endif %} {% endcomment %}
+            {% endif %}
             <a href="{% url 'addvoter' %}" id="statsbutton">Add Voter</a>
             <a href="{% url 'export' %}" id="statsbutton">Export</a>
         </div>
 
-        <br>
-        <form>
-            <h3>Search by name and address</h3>
-            <input type="text" id="nameInput" onkeyup="filterVoters()" placeholder="Search by name..">
-            <input type="text" id="addressInput" onkeyup="filterVoters()" placeholder="Search by address..">
-        </form>
-        <br>
+        <div class='center'>
+
+            <br>
+            <form>
+                <h3>Search by name and address</h3>
+                <input type="text" id="nameInput" onkeyup="filterVoters()" placeholder="Search by name..">
+                <input type="text" id="addressInput" onkeyup="filterVoters()" placeholder="Search by address..">
+            </form>
+            <br>
+        </div>
 
         <div class="voter-list">
             {% for voter in object_list %}
