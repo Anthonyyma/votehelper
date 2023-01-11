@@ -43,6 +43,8 @@ body {
   font-size: 2em;
   margin: 4px 2px;
   cursor: pointer;
+  width: 200px;
+  margin-right: 20px;
 }
 
 /*csv input*/
@@ -94,8 +96,6 @@ input[type="text"] {
   font-size: 1em;
   width: 100%;
 }
-
-
 @media only screen and (max-width: 1435px) {
   .center {
     display: flex;
@@ -105,6 +105,17 @@ input[type="text"] {
   .center a {
     width: 100%;
   }
+}
+
+.material-symbols-rounded {
+  font-size: 4em;
+  text-decoration: none;
+  color: black;
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 700,
+  'GRAD' 200,
+  'opsz' 48
 }
 
 
