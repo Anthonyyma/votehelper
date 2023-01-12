@@ -92,6 +92,23 @@ option:checked {
     background-color: #f2f2f2;
 }
 
+@media screen and (max-width: 600px) {
+    form {
+        flex-direction: column;
+    }
+    input[type="text"] {
+        width: 80%;
+    }
+    ul {
+        font-size: 0.8em;
+    }
+    input[type="submit"] {
+        width: 100%;
+    }
+    body {
+        width: 90%
+    }
+}
 
 
 

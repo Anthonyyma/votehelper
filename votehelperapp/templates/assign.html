@@ -4,15 +4,16 @@
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+        <title>Assign</title>
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'assignstyle.css' %}">
     </head>
 
     <body>
         <div style="display: flex; align-items: center; justify-content: space-around;">
-            <h1>Assign Users To A Neighbourhood</h1>
+            <h3>Assign Users To A Neighbourhood</h3>
             <a href="{% url 'voterlist' %}">Voter List</a>
         </div>
 
@@ -24,7 +25,7 @@
                         <label for="user-search">Search User:</label><br>
                         <input type="text" id="user-search" name="user-search">
                     </form>
-                    <br><br>
+                    <br>
                     <ul id="users">
                         {% for user in users %}
                         <li id="user-{{ user.pk }}" onclick="selectUser(this)">{{ user.username }}</li>
@@ -33,7 +34,7 @@
                 </div>
                 <div>
                     <form>
-                        <label for="group-search">Search Neighbourhood:</label>
+                        <label for="group-search">Search Group:</label>
                         <input type="text" id="group-search" name="group-search">
                     </form>
                     <br>
@@ -46,7 +47,10 @@
 
                 <input type="hidden" form="form1" name="user" id="selected-user" value="">
                 <input type="hidden" form="form1" name="group" id="selected-group" value="">
-                <input type="submit" form="form1" value="Confirm Assign">
+                <input type="submit" form="form1" id="submit" style="display: none">
+                <label for="submit" style="margin-top: 25px">
+                    <span style="font-size: 2em" class="material-symbols-outlined">check</span>
+                </label>
             </div>
 
 
