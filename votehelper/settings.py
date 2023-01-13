@@ -25,9 +25,9 @@ LOGIN_URL = '/login'
 SECRET_KEY = 'django-insecure-%@623+c03k9wtx=v(e#stx+6$bnt2unylnaivvp4jd_ppp8)0x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com', 'www.voteforucp.com']
 
 
 # Application definition
