@@ -20,24 +20,24 @@
         </div>
         <div class='center'>
             {% if request.user.is_superuser %}
-            <a href="{% url 'assign' %}" style="text-decoration: none; color: black; margin-right: 50px;">
+            <a href="{% url 'assign' %}" style="text-decoration: none; color: black">
                 <span class="material-symbols-rounded">manage_accounts</span>
                 <br>
                 <span style="text-decoration: none; color: black">Assign</span>
             </a>
             <!-- <a href="{% url 'assignindividual' %}" id="statsbutton">Assign Individual</a> -->
             {% endif %}
-            <a href="{% url 'addvoter' %}" style="text-decoration: none; color: black; margin-right: 50px;">
+            <a href="{% url 'addvoter' %}" style="text-decoration: none; color: black">
                 <span class="material-symbols-rounded">person_add_alt</span>
                 <br>
                 <span style="text-decoration: none; color: black">Add Voter</span>
             </a>
-            <a href="{% url 'stats' %}" style="text-decoration: none; color: black; margin-right: 50px;">
+            <a href="{% url 'stats' %}" style="text-decoration: none; color: black">
                 <span class="material-symbols-rounded">leaderboard</span>
                 <br>
                 <span style="text-decoration: none; color: black">Statistics</span>
             </a>
-            <a href="{% url 'export' %}" style="text-decoration: none; color: black; margin-right: 50px;">
+            <a href="{% url 'export' %}" style="text-decoration: none; color: black; margin-right: 0px;">
                 <span class="material-symbols-rounded">export_notes</span>
                 <br>
                 <span>Export Excel</span>

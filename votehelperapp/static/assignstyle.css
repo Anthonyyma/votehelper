@@ -37,17 +37,6 @@ input[type="submit"] {
     cursor: pointer;
 }
 
-a {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: #4CAF50;
-    height: fit-content;
-    color: white;
-    cursor: pointer;
-    text-decoration: none;
-}
-
 /* Style the lists */
 ul {
     list-style: none;
@@ -106,7 +95,7 @@ option:checked {
         width: 100%;
     }
     body {
-        width: 90%
+        width: 90%;
     }
 }
 

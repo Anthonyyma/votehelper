@@ -86,17 +86,17 @@ def assign(request):
     users = User.objects.all()
 
     if request.method == 'POST':
-        # Get the user and group objects
-        user = User.objects.get(pk=user_pk)
-        group = Group.objects.get(name=group_name)
-        group = Group.objects.get(name=group_name)
+        if user_pk and group_name:
+            # Get the user and group objects
+            user = User.objects.get(pk=user_pk)
+            group = Group.objects.get(name=group_name)
 
-        # Remove the user from their current group (if they are in one)
-        if user.groups:
-            user.groups.clear()
+            # Remove the user from their current group (if they are in one)
+            if user.groups:
+                user.groups.clear()
 
-        # Add the user to the group
-        group.user_set.add(user)
+            # Add the user to the group
+            group.user_set.add(user)
 
     context = {'users':users, 'groups':groups}
     return render(request, "assign.html", context)
@@ -140,15 +140,15 @@ def import_csv(request):
 
                 reader = csv.reader([line])
                 fields = next(reader)
-                # nei = fields[2].strip()
+                groupNum = fields[4].strip()
 
-                # # create the group
-                # group = Group.objects.filter(name=nei)
+                # create the group
+                group = Group.objects.filter(name=groupNum)
 
-                # if not group:
-                #     group = Group.objects.create(name=nei)
-                # voter = Voter(name=fields[0], address=fields[1], neighbourhood=nei)
-                voter = Voter(name=fields[0], address=fields[1], phone=fields[2], email=fields[3].strip())
+                if not group.exists():
+                    group = Group.objects.create(name=groupNum)
+                    
+                voter = Voter(name=fields[0], address=fields[1], phone=fields[2], email=fields[3], neighbourhood=groupNum)
                 voter.save()
 
         except Exception as e:

@@ -96,19 +96,28 @@ input[type="text"] {
   font-size: 1em;
   width: 100%;
 }
-@media only screen and (max-width: 1435px) {
+
+.center a {
+  margin-right: 50px;
+}
+
+@media only screen and (max-width: 600px) {
   .center {
     display: flex;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; */
   }
 
   .center a {
     width: 100%;
   }
+
+  body {
+    width: 90%;
+  }
 }
 
 .material-symbols-rounded {
-  font-size: 4em;
+  font-size: 3em;
   text-decoration: none;
   color: black;
   font-variation-settings:
