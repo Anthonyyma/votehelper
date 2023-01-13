@@ -162,7 +162,7 @@ def addVoter(request):
         form = CreateForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/list")
+            return redirect("/")
         else:
             print(form.errors)
 
