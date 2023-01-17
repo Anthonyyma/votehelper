@@ -11,6 +11,8 @@ from django.contrib.auth.models import Group, User
 from django.contrib.auth.decorators import login_required
 import openpyxl, io
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import logout
+from django.contrib import messages
 
 class VoterList(LoginRequiredMixin, ListView):
     template_name = "voterlist.html"
@@ -28,6 +30,10 @@ def loginUser(request):
             return render(request, 'login.html', {'error': 'Invalid username or password'})
     else:
         return render(request, 'login.html')
+
+def logoutUser(request):
+    logout(request)
+    return redirect("/login")
 
 def register(request):
     if request.method == 'POST':
@@ -98,6 +104,12 @@ def assign(request):
             # Add the user to the group
             group.user_set.add(user)
 
+            messages.success(request, 'Group assigned successfully')
+            system_messages = messages.get_messages(request)
+            for message in system_messages:
+                # This iteration is necessary
+                pass
+
     context = {'users':users, 'groups':groups}
     return render(request, "assign.html", context)
 
@@ -148,7 +160,7 @@ def import_csv(request):
                 if not group.exists():
                     group = Group.objects.create(name=groupNum)
                     
-                voter = Voter(name=fields[0], address=fields[1], phone=fields[2], email=fields[3], neighbourhood=groupNum)
+                voter = Voter(name=fields[0], address=fields[1], phone=fields[2], email=fields[3], group=groupNum)
                 voter.save()
 
         except Exception as e:

@@ -13,6 +13,27 @@
     </head>
 
     <body>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <style>
+        .messages{
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+        color: red;
+        }
+        </style>
+                <script>
+        setTimeout(function() {
+            var element = document.getElementsByClassName("messages")[0];
+            element.style.opacity = 0;
+        }, 1500);
+        </script>
+        {% endif %}
+
         <a href="{% url 'voterlist' %}">
             <span class="material-symbols-rounded" style="color: black; font-size: 2em">
             arrow_back

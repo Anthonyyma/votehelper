@@ -14,7 +14,7 @@ class Voter(models.Model):
     address = models.TextField()
     email = models.TextField(default="", blank=True)
     phone = models.TextField(default="", blank=True)
-    neighbourhood = models.TextField(default="", blank=True)
+    group = models.TextField(default="", blank=True)
     assignedEmp = models.TextField(default="", blank=True)
     decision = models.CharField(max_length=20, blank=True)
     notes = models.TextField(blank=True)

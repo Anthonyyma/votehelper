@@ -23,12 +23,13 @@ class VoterForm(forms.ModelForm):
 class CreateForm(forms.ModelForm):
     class Meta:
         model = Voter
-        exclude = ['id', 'decision', 'notes', 'assignedEmp', 'neighbourhood']
+        exclude = ['id', 'decision', 'notes', 'assignedEmp']
         widgets = {
         'name': forms.Textarea(attrs={'cols': 40, 'rows': 2}),
         'address': forms.Textarea(attrs={'cols': 40, 'rows': 4}),
         'email': forms.Textarea(attrs={'cols': 40, 'rows': 2}),
         'phone': forms.Textarea(attrs={'cols': 40, 'rows': 2}),
+        'group': forms.Textarea(attrs={'cols': 40, 'rows': 2}),
         }
 
 

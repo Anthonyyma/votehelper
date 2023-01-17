@@ -6,6 +6,7 @@ urlpatterns = [
     path('stats/', views.stats, name='stats'),
     # path('create/', views.addVoter, name='create'),
     path('login/', views.loginUser, name='login'),
+    path('logout/', views.logoutUser, name='logout'),
     path('register/', views.register, name='register'),
     path('survey/', views.survey, name='survey'),
     path('', views.VoterList.as_view(), name='voterlist'),
